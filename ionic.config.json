@@ -1,0 +1,7 @@
+{
+  "name": "dam-gestion",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
