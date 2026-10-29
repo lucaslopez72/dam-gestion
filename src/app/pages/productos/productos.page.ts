@@ -27,6 +27,9 @@ export class ProductosPage {
     catch (error) { this.error = error instanceof Error ? error.message : 'No se han podido cargar los productos.'; }
     finally { this.cargando = false; this.cdr.markForCheck(); }
   }
+  async editarProducto(producto: Producto): Promise<void> {
+    if (this.auth.sesion()?.rol === 'admin') await this.router.navigateByUrl('/editar-producto/' + producto.id);
+  }
   async salir(): Promise<void> {
     try {
       await this.auth.logout(); this.productos = [];
