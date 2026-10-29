@@ -83,11 +83,10 @@ El enunciado exige un repositorio accesible al docente, una URL pública operati
 
 La aplicación y Compodoc están publicados en Vercel desde el repositorio de GitHub. La auditoría Lighthouse de la pantalla pública de acceso obtiene Performance 95, Accessibility 100 y Best Practices 100. El informe completo HTML y JSON está en `docs/evidencias`. Las 25 pruebas, lint y build pasan. La descarga interactiva PDF/CSV no se ha verificado por el bloqueo de permisos del navegador de comprobación; la generación se valida en pruebas automatizadas.
 
-## Memoria y evidencias
+## Evidencias
 
-- [Memoria pública con capturas, sin contraseñas](docs/Memoria_Actividad_Individual_1.pdf).
 - [Auditoría Lighthouse de Vercel](docs/evidencias/lighthouse-vercel.html): Performance 95, Accessibility 100 y Best Practices 100.
 - [Acceso estándar en producción](docs/evidencias/usuario-estandar-vercel.png).
 - [Catálogo en móvil](docs/evidencias/catalogo-movil-produccion.png).
 
-El PDF privado para el LMS incorpora las cuentas de ambos roles. No se publica en este repositorio.
+La memoria y las credenciales de evaluación se entregan por separado al docente.
