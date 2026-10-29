@@ -1,0 +1,4 @@
+[
+  {"id":"aviso-1","titulo":"Revisión del inventario","mensaje":"Comprueba los productos con cinco unidades o menos antes de reponer.","tipo":"inventario"},
+  {"id":"aviso-2","titulo":"Exportación de informes","mensaje":"Los informes incluyen el catálogo visible y el filtro de stock seleccionado.","tipo":"informes"}
+]
