@@ -22,7 +22,7 @@ Se aplica separación MVVM: las plantillas presentan los datos; las páginas coo
 
 - `services/auth.ts`: sesión real de Supabase y roles `admin`/`usuario` de `app_metadata.rol`. No se confía en `user_metadata`.
 - `guards/auth.guard.ts`: espera la restauración de sesión antes de comprobar acceso.
-- `services/productos.ts`: consulta SQL mediante la API REST de Supabase y alta de productos. Las políticas RLS del servidor deben permitir lectura a ambos roles y escritura solo a administrador. Los guards y botones no sustituyen RLS.
+- `services/productos.ts`: consulta SQL mediante la API REST de Supabase y alta y edición de productos. Las políticas RLS del servidor deben permitir lectura a ambos roles y escritura solo a administrador. Los guards y botones no sustituyen RLS.
 - `services/nombre-disponible.ts`: validación remota asíncrona del nombre al salir del campo. Si falla la red, el alta se bloquea y muestra un error. La comprobación evita duplicados en el uso normal; no sustituye una restricción única transaccional en la base de datos.
 - `services/documentos.ts`: simulación documental NoSQL permitida por el enunciado. Lee `assets/documentos-demo.json` con Promises y emite instantáneas cada diez segundos con RxJS mientras el dashboard está visible. No es una conexión real a Firestore. Se cancela la suscripción al salir o destruir la vista.
 - `pages/dashboard`: consulta SQL y documentos concurrentemente con `Promise.all`. Un fallo de la fuente documental se muestra por separado y no oculta el catálogo SQL.
@@ -41,6 +41,10 @@ Después del acceso se muestra Productos. Ambos roles pueden consultar el catál
 ### Registrar un producto (administrador)
 
 Abrir Nuevo producto. Introducir un nombre de 3 a 120 caracteres, precio positivo y stock entero no negativo. Al salir del campo Nombre se consulta Supabase: el formulario indica si ya existe o si no ha podido comprobarlo. Esperar a que termine antes de guardar. El mensaje de éxito se muestra únicamente cuando el servicio confirma la inserción; después se abre Productos. Ante un error incierto de red, comprobar el listado antes de repetir el guardado.
+
+### Editar un producto (administrador)
+
+En Productos, pulsar Editar junto al registro. El formulario carga el nombre, precio y stock actuales. Cambiar los campos y pulsar Guardar cambios. El nombre actual es válido; se comprueba que no coincida con otro producto. Cancelar vuelve al catálogo sin guardar. La actualización mantiene el identificador y la fecha de creación, y solo se confirma si Supabase devuelve el registro actualizado. El usuario estándar no ve el botón y no puede abrir la ruta ni actualizar mediante la API.
 
 ### Dashboard e informes (administrador)
 

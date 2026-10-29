@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard, adminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  { path: 'editar-producto/:id', title: 'Editar producto · DAM Gestión', canActivate: [adminGuard], runGuardsAndResolvers: 'always', loadComponent: () => import('./pages/nuevo-producto/nuevo-producto.page').then(m => m.NuevoProductoPage) },
   { path: '', redirectTo: 'productos', pathMatch: 'full' },
   { path: 'login', title: 'Acceso · DAM Gestión', loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage) },
   { path: 'productos', title: 'Productos · DAM Gestión', canActivate: [authGuard], runGuardsAndResolvers: 'always', loadComponent: () => import('./pages/productos/productos.page').then(m => m.ProductosPage) },

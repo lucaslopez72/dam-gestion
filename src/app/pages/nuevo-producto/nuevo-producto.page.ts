@@ -4,7 +4,7 @@ import { Component, ChangeDetectorRef, DestroyRef, inject } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { nombreDisponible } from '../../services/nombre-disponible';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Productos } from '../../services/productos';
 import {
   FormBuilder,
@@ -27,7 +27,7 @@ import { IonText } from '@ionic/angular';
   styleUrls: ['./nuevo-producto.page.scss'],
   standalone: true,
   imports: [CabeceraComponent,
-    CommonModule,
+    CommonModule, RouterLink,
     ReactiveFormsModule,
     IonContent,
     IonItem,
@@ -42,6 +42,10 @@ export class NuevoProductoPage {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly productos = inject(Productos);
   private readonly router = inject(Router);
+  private readonly ruta = inject(ActivatedRoute);
+  productoId: number | undefined;
+  cargando = false;
+  cargaFallida = false;
   guardando = false;
   error = '';
   guardado = false;
@@ -49,7 +53,7 @@ export class NuevoProductoPage {
   formulario = this.fb.nonNullable.group({
     nombre: this.fb.nonNullable.control('', {
       validators: [Validators.required, Validators.minLength(3), Validators.maxLength(120)],
-      asyncValidators: [nombreDisponible(this.productos)], updateOn: 'blur'
+      asyncValidators: [nombreDisponible(this.productos, () => this.productoId)], updateOn: 'blur'
     }),
     precio: [0, [
       Validators.required,
@@ -66,8 +70,24 @@ export class NuevoProductoPage {
       .subscribe(() => this.cdr.markForCheck());
   }
 
+  async ionViewWillEnter(): Promise<void> {
+    const id = this.ruta.snapshot.paramMap.get('id');
+    this.productoId = id === null ? undefined : Number(id);
+    this.error = ''; this.guardado = false; this.cargaFallida = false;
+    this.formulario.reset();
+    if (this.productoId === undefined) return;
+    this.cargando = true;
+    try {
+      const producto = await this.productos.obtener(this.productoId);
+      this.formulario.setValue({ nombre: producto.nombre, precio: producto.precio, stock: producto.stock });
+    } catch (error) {
+      this.cargaFallida = true;
+      this.error = error instanceof Error ? error.message : 'No se ha podido cargar el producto.';
+    } finally { this.cargando = false; this.cdr.markForCheck(); }
+  }
+
   async guardarProducto(): Promise<void> {
-    if (this.guardando) return;
+    if (this.guardando || this.cargando || this.cargaFallida) return;
     this.formulario.markAllAsTouched();
     this.error = '';
     this.guardado = false;
@@ -75,7 +95,9 @@ export class NuevoProductoPage {
     this.guardando = true;
     try {
       const datos = this.formulario.getRawValue();
-      await this.productos.crear({ nombre: datos.nombre, precio: Number(datos.precio), stock: Number(datos.stock) });
+      const producto = { nombre: datos.nombre, precio: Number(datos.precio), stock: Number(datos.stock) };
+      if (this.productoId === undefined) await this.productos.crear(producto);
+      else await this.productos.actualizar(this.productoId, producto);
       this.guardado = true;
       this.formulario.reset();
     } catch (error) {
