@@ -4,12 +4,13 @@ Aplicación Ionic + Angular de gestión de inventario. El proyecto original est�
 
 ## Enlaces de entrega
 
-- Aplicación: https://lucaslopez72.github.io/dam-gestion/
+- Aplicación principal: https://dam-gestion.vercel.app/#/login
+- Despliegue alternativo: https://lucaslopez72.github.io/dam-gestion/
 - Código fuente e historial: https://github.com/lucaslopez72/dam-gestion
-- Documentación técnica: https://lucaslopez72.github.io/dam-gestion/documentacion/
+- Documentación técnica: https://lucaslopez72.github.io/dam-gestion/documentacion/index.html
 - Manual: este README y la página Ayuda de la aplicación.
 
-GitHub Actions valida, compila y publica automáticamente cada cambio en main. En producción se utilizan rutas con # para permitir recargas en GitHub Pages; localhost mantiene sus rutas habituales. Las credenciales de evaluación se entregan en el PDF privado del docente, nunca en este repositorio.
+GitHub Actions valida, compila y publica automáticamente cada cambio en main en GitHub Pages. Vercel publica el mismo repositorio con la configuración de `vercel.json`, que incluye pruebas, compilación y Compodoc. En producción se utilizan rutas con # para permitir recargas en GitHub Pages; localhost mantiene sus rutas habituales. Las credenciales de evaluación se entregan en el PDF privado del docente, nunca en este repositorio.
 
 ## Arranque y comprobaciones
 
@@ -75,6 +76,10 @@ La configuración del cliente contiene exclusivamente la URL de Supabase y su cl
 
 ## Control de versiones y entrega
 
-Se conserva el repositorio Git original, con sus ramas `main`, `develop` y `feature/navegacion`. No se reconstruye un historial retroactivo. Los nuevos avances deben registrarse mediante commits reales. El workflow `.github/workflows/ci.yml` valida las ramas y pull requests; Netlify puede publicar automáticamente desde el repositorio autorizado.
+Se conserva el repositorio Git original, con sus ramas `main`, `develop` y `feature/navegacion`. No se reconstruye un historial retroactivo. Los nuevos avances deben registrarse mediante commits reales. El workflow `.github/workflows/ci.yml` valida las ramas y pull requests; GitHub Pages publica automáticamente desde main mediante `.github/workflows/pages.yml`, tras superar análisis, pruebas y compilación.
 
 El enunciado exige un repositorio accesible al docente, una URL pública operativa, cuentas de ambos roles, Lighthouse con Accessibility y Best Practices ≥90 y documentación generada. No considerar completados el despliegue, la auditoría ni el acceso de una cuenta estándar hasta verificarlos. El ZIP de entrega debe contener exclusivamente el PDF final de enlaces y evidencias; nunca incluir `node_modules` ni credenciales en un repositorio público.
+
+## Evidencias de producción (29/10/2026)
+
+La aplicación y Compodoc se han publicado con GitHub Actions. La auditoría Lighthouse de la pantalla pública de acceso obtiene Performance 95, Accessibility 100 y Best Practices 100. El informe completo HTML y JSON está en `docs/evidencias`. Las 25 pruebas, lint y build pasan. La descarga interactiva PDF/CSV no se ha verificado por el bloqueo de permisos del navegador de comprobación; la generación se valida en pruebas automatizadas.
