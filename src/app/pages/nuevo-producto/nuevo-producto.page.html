@@ -1,0 +1,71 @@
+
+<app-cabecera titulo="Nuevo producto" />
+
+<ion-content class="ion-padding">
+  <main><p class="eyebrow">CATÁLOGO / NUEVO PRODUCTO</p><h1>Amplía tu catálogo.</h1><p class="page-description">Introduce los datos del producto. Comprobaremos el nombre antes de guardarlo.</p><section class="surface form-surface">
+
+  <form novalidate [formGroup]="formulario"
+        (ngSubmit)="guardarProducto()">
+
+    <ion-item>
+      <ion-input
+        label="Nombre"
+        labelPlacement="stacked"
+        formControlName="nombre"
+        [attr.aria-invalid]="formulario.controls.nombre.touched && formulario.controls.nombre.invalid"
+        [attr.aria-describedby]="formulario.controls.nombre.touched && formulario.controls.nombre.invalid ? 'error-nombre' : null"
+        placeholder="Nombre del producto">
+      </ion-input>
+    </ion-item>
+
+    @if(formulario.controls.nombre.touched && formulario.controls.nombre.invalid) {
+    <ion-text color="danger">
+      <p id="error-nombre" role="alert">
+        @if(formulario.controls.nombre.hasError('nombreExistente')) { Ya existe un producto con ese nombre. }
+        @else if(formulario.controls.nombre.hasError('validacionNoDisponible')) { No se ha podido comprobar el nombre. Revisa tu conexión y vuelve a editarlo. }
+        @else { Introduce un nombre de entre 3 y 120 caracteres. }
+      </p>
+    </ion-text>
+    }
+    @if(formulario.controls.nombre.pending) { <p role="status">Comprobando el nombre en Supabase…</p> }
+
+    <ion-item>
+      <ion-input
+        label="Precio (€)"
+        labelPlacement="stacked"
+        type="number"
+        min="0.01" step="0.01"
+        [attr.aria-invalid]="formulario.controls.precio.touched && formulario.controls.precio.invalid"
+        [attr.aria-describedby]="formulario.controls.precio.touched && formulario.controls.precio.invalid ? 'error-precio' : null"
+        formControlName="precio">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Stock"
+        labelPlacement="stacked"
+        type="number"
+        min="0" step="1" max="2147483647"
+        [attr.aria-invalid]="formulario.controls.stock.touched && formulario.controls.stock.invalid"
+        [attr.aria-describedby]="formulario.controls.stock.touched && formulario.controls.stock.invalid ? 'error-stock' : null"
+        formControlName="stock">
+      </ion-input>
+    </ion-item>
+
+    @if(formulario.controls.precio.touched && formulario.controls.precio.invalid) { <p id="error-precio" role="alert">El precio debe ser al menos 0,01 €.</p> }
+    @if(formulario.controls.stock.touched && formulario.controls.stock.invalid) { <p id="error-stock" role="alert">El stock debe ser un entero entre 0 y 2147483647.</p> }
+
+    <ion-button
+      expand="block"
+      type="submit" [disabled]="guardando || formulario.pending"
+      class="ion-margin-top">
+      {{ guardando ? 'Guardando…' : 'Guardar producto' }}
+    </ion-button>
+
+  @if(error){<ion-text color="danger"><p role="alert">{{ error }}</p></ion-text>}
+  @if(guardado){<p role="status">Producto guardado correctamente.</p>}
+  </form></section></main>
+</ion-content>
+
+

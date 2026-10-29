@@ -1,0 +1,45 @@
+<app-cabecera titulo="Dashboard de inventario" />
+<ion-content class="ion-padding">
+ <main><div class="page-heading"><div><p class="eyebrow">ANÁLISIS / INVENTARIO</p><h1>Una visión clara.<br> Mejores decisiones.</h1><p class="page-description">Existencias, valor y prioridades de reposición de tu catálogo.</p></div><span class="data-label">Datos de Supabase</span></div>
+ <ion-button (click)="cargar()" [disabled]="cargando()">Actualizar datos</ion-button>
+ @if(cargando()){<p role="status"><ion-spinner></ion-spinner> Cargando inventario…</p>}
+ @if(error()){<p role="alert">{{error()}}</p>}
+ @if(!cargando()&&!error()){
+ <section class="surface report-tools" aria-label="Exportar inventario">
+  <label>Filtrar por nombre <input #filtroInput type="search" [(ngModel)]="filtroNombre" (ngModelChange)="nombre.set($event)" /></label>
+  @if(nombre()){<ion-button fill="clear" type="button" (click)="filtroNombre='';nombre.set('');filtroInput.focus()">Limpiar filtro</ion-button>}
+  <ion-button (click)="exportar('pdf')" [disabled]="exportando()">Descargar PDF</ion-button>
+  <ion-button fill="outline" (click)="exportar('csv')" [disabled]="exportando()">Descargar CSV</ion-button>
+  <p>Se exportan los productos que coinciden con los filtros activos.</p>
+  @if(avisoExportacion()){<p role="status">{{avisoExportacion()}}</p>}
+ </section>
+ <section class="indicadores" aria-label="Métricas del catálogo">
+ <app-indicador titulo="Referencias" [valor]="''+metricas().referencias" detalle="Ver todo el catálogo" [activo]="!bajos()" (activar)="bajos.set(false)" />
+ <app-indicador titulo="Unidades disponibles" [valor]="''+metricas().unidades" detalle="Ver todo el catálogo" (activar)="bajos.set(false)" />
+ <app-indicador titulo="Valor del inventario" [valor]="(metricas().valor | currency:'EUR') || '0 €'" detalle="Precio de venta multiplicado por stock" (activar)="bajos.set(false)" />
+ <app-indicador titulo="Stock bajo" [valor]="''+metricas().bajos" detalle="Filtrar productos con 5 unidades o menos" [activo]="bajos()" (activar)="bajos.set(!bajos())" />
+ </section>
+ <section class="surface" aria-labelledby="grafico-titulo"><h2 id="grafico-titulo">Unidades por producto</h2><p>Hasta 10 productos, ordenados por stock. {{bajos()?'Filtro de stock bajo activo.':''}}</p>
+ <figure><svg viewBox="0 0 680 320" role="img" aria-labelledby="grafico-titulo grafico-descripcion">
+ <desc id="grafico-descripcion">Gráfico de barras del stock. Los valores también están disponibles en la tabla inferior.</desc>
+ @for(p of grafico();track p.id;let i=$index){
+ <text x="0" [attr.y]="24+i*29" fill="currentColor">{{p.nombre.length>22?p.nombre.slice(0,21)+'…':p.nombre}}</text>
+ <rect x="230" [attr.y]="8+i*29" [attr.width]="p.stock/maximo()*380" height="20" fill="var(--ion-color-primary)" />
+ <text [attr.x]="238+p.stock/maximo()*380" [attr.y]="24+i*29" fill="currentColor">{{p.stock}}</text>
+ }
+ </svg><figcaption>Stock actual de los productos del catálogo.</figcaption></figure>
+ </section>
+ <section class="surface"><app-tabla-productos [productos]="visibles()" (seleccion)="seleccionado.set($event)" /></section>
+ @if(seleccionado(); as p){<aside aria-live="polite"><h2>{{p.nombre}}</h2><p>Valor en inventario: {{p.precio*p.stock | currency:'EUR'}}. Stock: {{p.stock}}.</p></aside>}
+ }
+ </main>
+ <section class="documentos" aria-labelledby="documentos-titulo">
+ <h2 id="documentos-titulo">Avisos operativos · simulación NoSQL</h2>
+ <p>Fuente documental de demostración. Se consulta cada 10 segundos mientras esta vista está abierta. Última lectura: {{ultimaActualizacion()}}.</p>
+ @if(errorDocumentos()){<p role="alert">{{errorDocumentos()}}</p>}
+ @for(documento of documentos();track documento.id){<article><h3>{{documento.titulo}}</h3><p>{{documento.mensaje}}</p></article>}
+ </section>
+</ion-content>
+
+
+
