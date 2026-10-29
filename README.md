@@ -5,12 +5,11 @@ Aplicación Ionic + Angular de gestión de inventario. El proyecto original est�
 ## Enlaces de entrega
 
 - Aplicación principal: https://dam-gestion.vercel.app/#/login
-- Despliegue alternativo: https://lucaslopez72.github.io/dam-gestion/
 - Código fuente e historial: https://github.com/lucaslopez72/dam-gestion
-- Documentación técnica: https://lucaslopez72.github.io/dam-gestion/documentacion/index.html
+- Documentación técnica: https://dam-gestion.vercel.app/documentacion/index.html
 - Manual: este README y la página Ayuda de la aplicación.
 
-GitHub Actions valida, compila y publica automáticamente cada cambio en main en GitHub Pages. Vercel publica el mismo repositorio con la configuración de `vercel.json`, que incluye pruebas, compilación y Compodoc. En producción se utilizan rutas con # para permitir recargas en GitHub Pages; localhost mantiene sus rutas habituales. Las credenciales de evaluación se entregan en el PDF privado del docente, nunca en este repositorio.
+GitHub contiene el código fuente y el historial. GitHub Actions valida las ramas y pull requests. Vercel publica la aplicación desde este repositorio con `vercel.json`, que incluye pruebas, compilación y Compodoc. En producción se utilizan rutas con #; localhost mantiene sus rutas habituales. Las credenciales de evaluación se entregan en el PDF privado del docente, nunca en este repositorio.
 
 ## Arranque y comprobaciones
 
@@ -24,7 +23,7 @@ npm run build
 npm run docs
 ```
 
-La aplicación compilada queda en `www`. Compodoc genera la documentación técnica en `www/documentacion`. Generar la documentación después de la compilación, porque esta limpia la carpeta de salida. `netlify.toml` ejecuta pruebas, compila y genera documentación antes de publicar. Las rutas se redirigen a `index.html` para que una recarga en `/dashboard` funcione.
+La aplicación compilada queda en `www`. Compodoc genera la documentación técnica en `www/documentacion`. Generar la documentación después de la compilación, porque esta limpia la carpeta de salida. `vercel.json` ejecuta pruebas, compila y genera la documentación antes de publicar en Vercel.
 
 ## Arquitectura
 
@@ -76,19 +75,18 @@ La configuración del cliente contiene exclusivamente la URL de Supabase y su cl
 
 ## Control de versiones y entrega
 
-Se conserva el repositorio Git original, con sus ramas `main`, `develop` y `feature/navegacion`. No se reconstruye un historial retroactivo. Los nuevos avances deben registrarse mediante commits reales. El workflow `.github/workflows/ci.yml` valida las ramas y pull requests; GitHub Pages publica automáticamente desde main mediante `.github/workflows/pages.yml`, tras superar análisis, pruebas y compilación.
+Se conserva el repositorio Git original, con sus ramas `main`, `develop` y `feature/navegacion`. No se reconstruye un historial retroactivo. Los nuevos avances deben registrarse mediante commits reales. El workflow `.github/workflows/ci.yml` valida las ramas y pull requests; Vercel publica automáticamente desde main, tras superar análisis, pruebas y compilación.
 
 El enunciado exige un repositorio accesible al docente, una URL pública operativa, cuentas de ambos roles, Lighthouse con Accessibility y Best Practices ≥90 y documentación generada. No considerar completados el despliegue, la auditoría ni el acceso de una cuenta estándar hasta verificarlos. El ZIP de entrega debe contener exclusivamente el PDF final de enlaces y evidencias; nunca incluir `node_modules` ni credenciales en un repositorio público.
 
 ## Evidencias de producción (29/10/2026)
 
-La aplicación y Compodoc se han publicado con GitHub Actions. La auditoría Lighthouse de la pantalla pública de acceso obtiene Performance 95, Accessibility 100 y Best Practices 100. El informe completo HTML y JSON está en `docs/evidencias`. Las 25 pruebas, lint y build pasan. La descarga interactiva PDF/CSV no se ha verificado por el bloqueo de permisos del navegador de comprobación; la generación se valida en pruebas automatizadas.
+La aplicación y Compodoc están publicados en Vercel desde el repositorio de GitHub. La auditoría Lighthouse de la pantalla pública de acceso obtiene Performance 95, Accessibility 100 y Best Practices 100. El informe completo HTML y JSON está en `docs/evidencias`. Las 25 pruebas, lint y build pasan. La descarga interactiva PDF/CSV no se ha verificado por el bloqueo de permisos del navegador de comprobación; la generación se valida en pruebas automatizadas.
 
-## Memoria y evidencias
+## Evidencias
 
-- [Memoria pública con capturas, sin contraseñas](docs/Memoria_Actividad_Individual_1.pdf).
 - [Auditoría Lighthouse de Vercel](docs/evidencias/lighthouse-vercel.html): Performance 95, Accessibility 100 y Best Practices 100.
 - [Acceso estándar en producción](docs/evidencias/usuario-estandar-vercel.png).
 - [Catálogo en móvil](docs/evidencias/catalogo-movil-produccion.png).
 
-El PDF privado para el LMS incorpora las cuentas de ambos roles. No se publica en este repositorio.
+La memoria y las credenciales de evaluación se entregan por separado al docente.

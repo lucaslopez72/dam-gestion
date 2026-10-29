@@ -1,9 +1,36 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
-  "navigationUrls": ["/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**", "!/dam-gestion/documentacion/**", "!/dam-gestion/evidencias/**", "!/documentacion/**", "!/evidencias/**"],
+  "navigationUrls": [
+    "/**",
+    "!/**/*.*",
+    "!/**/*__*",
+    "!/**/*__*/**",
+    "!/documentacion/**",
+    "!/evidencias/**"
+  ],
   "assetGroups": [
-    { "name": "aplicacion", "installMode": "prefetch", "resources": { "files": ["/index.html", "/*.css", "/*.js", "/manifest.webmanifest"] } },
-    { "name": "recursos", "installMode": "lazy", "updateMode": "prefetch", "resources": { "files": ["/assets/**"] } }
+    {
+      "name": "aplicacion",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/index.html",
+          "/*.css",
+          "/*.js",
+          "/manifest.webmanifest"
+        ]
+      }
+    },
+    {
+      "name": "recursos",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**"
+        ]
+      }
+    }
   ]
 }
