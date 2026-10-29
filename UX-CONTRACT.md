@@ -7,16 +7,16 @@ Fuentes: enunciado Actividad individual 1, README y políticas de Supabase exist
 | Capability | Canonical owner | Source of truth | Allowed variants | Verification |
 |---|---|---|---|---|
 | Table Selection | TablaProductos | Input productos y Output seleccion | Selección simple, sin acciones masivas | tabla-productos.spec.ts |
-| Form | ReactiveFormsModule e IonInput | Servicios Auth y Productos; validadores del alta | Acceso y alta | login.page.spec.ts; nombre-disponible.spec.ts |
+| Form | ReactiveFormsModule e IonInput | Servicios Auth y Productos; validadores de alta y edición | Acceso, alta y edición | login.page.spec.ts; nombre-disponible.spec.ts |
 | Scrollbar | src/global.scss | Variables de tema | Scroll Ionic y tabla horizontal | navegador estrecho |
 | Toast | Mensajes inline de las páginas | role=status y role=alert | Éxito no modal y error persistente | tests de login |
-| CRUD | Productos y Router | API Supabase con RLS | Lectura ambos roles, alta admin | nuevo-producto.page.spec.ts |
+| CRUD | Productos y Router | API Supabase con RLS | Lectura ambos roles, alta y edición admin | nuevo-producto.page.spec.ts |
 
 ## Flujos y estados
 
 Acceso: envío único → pendiente → sesión válida → Productos; error → formulario conservado y botón habilitado. Guard espera restauración. No cambiar roles desde el cliente. Los fallos de red no significan credenciales incorrectas.
 
-Alta: validación síncrona y remota al perder foco → pendiente → Guardar → confirmación API → Productos. Error → valores conservados. Un resultado incierto exige consultar el catálogo antes de repetir. No hay edición ni borrado en esta actividad; no añadir acciones destructivas aparentes.
+Alta: validación síncrona y remota al perder foco → pendiente → Guardar → confirmación API → Productos. Error → valores conservados. Un resultado incierto exige consultar el catálogo antes de repetir. Edición: solo admin → cargar por ID → nombre, precio y stock precargados → validar excluyendo el propio ID → actualizar por ID → confirmar fila devuelta → catálogo actualizado. Carga fallida bloquea guardar; Cancelar no escribe. La API RLS bloquea actualizaciones de usuario estándar. No hay borrado en la interfaz.
 
 Dashboard: consulta simultánea SQL/documentos → carga → métricas, tabla y gráfico; error documental independiente de SQL. Suscripción documental se cancela al salir. PDF/CSV reflejan los filtros activos del dashboard, no la búsqueda interna de tabla. Exportación bloquea clics duplicados y anuncia resultado.
 

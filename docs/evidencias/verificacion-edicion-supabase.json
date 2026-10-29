@@ -1,0 +1,12 @@
+[
+  {
+    "rol": "admin",
+    "actualizacionPermitida": true,
+    "comprobacion": "correcta"
+  },
+  {
+    "rol": "usuario",
+    "actualizacionPermitida": false,
+    "comprobacion": "correcta"
+  }
+]

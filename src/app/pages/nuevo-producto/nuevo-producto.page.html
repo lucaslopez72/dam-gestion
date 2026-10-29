@@ -1,13 +1,14 @@
 
-<app-cabecera titulo="Nuevo producto" />
+<app-cabecera [titulo]="productoId === undefined ? 'Nuevo producto' : 'Editar producto'" />
 
 <ion-content class="ion-padding">
-  <main><p class="eyebrow">CATÁLOGO / NUEVO PRODUCTO</p><h1>Amplía tu catálogo.</h1><p class="page-description">Introduce los datos del producto. Comprobaremos el nombre antes de guardarlo.</p><section class="surface form-surface">
+  <main><p class="eyebrow">CATÁLOGO / {{ productoId === undefined ? 'NUEVO PRODUCTO' : 'EDITAR PRODUCTO' }}</p><h1>{{ productoId === undefined ? 'Amplía tu catálogo.' : 'Edita tu producto.' }}</h1><p class="page-description">Introduce los datos del producto. Comprobaremos el nombre antes de guardarlo.</p><section class="surface form-surface">
 
+  @if(cargando) { <p role="status">Cargando producto…</p> }
   <form novalidate [formGroup]="formulario"
         (ngSubmit)="guardarProducto()">
 
-    <ion-item>
+    <ion-item [disabled]="cargando || cargaFallida || guardando">
       <ion-input
         label="Nombre"
         labelPlacement="stacked"
@@ -29,7 +30,7 @@
     }
     @if(formulario.controls.nombre.pending) { <p role="status">Comprobando el nombre en Supabase…</p> }
 
-    <ion-item>
+    <ion-item [disabled]="cargando || cargaFallida || guardando">
       <ion-input
         label="Precio (€)"
         labelPlacement="stacked"
@@ -41,7 +42,7 @@
       </ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item [disabled]="cargando || cargaFallida || guardando">
       <ion-input
         label="Stock"
         labelPlacement="stacked"
@@ -58,11 +59,12 @@
 
     <ion-button
       expand="block"
-      type="submit" [disabled]="guardando || formulario.pending"
+      type="submit" [disabled]="guardando || formulario.pending || cargando || cargaFallida"
       class="ion-margin-top">
-      {{ guardando ? 'Guardando…' : 'Guardar producto' }}
+      {{ guardando ? 'Guardando…' : productoId === undefined ? 'Guardar producto' : 'Guardar cambios' }}
     </ion-button>
 
+  <ion-button fill="outline" routerLink="/productos" [disabled]="guardando">Cancelar y volver al catálogo</ion-button>
   @if(error){<ion-text color="danger"><p role="alert">{{ error }}</p></ion-text>}
   @if(guardado){<p role="status">Producto guardado correctamente.</p>}
   </form></section></main>

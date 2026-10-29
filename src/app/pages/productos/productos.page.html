@@ -10,7 +10,7 @@
   @if (cargando) { <p role="status"><ion-spinner></ion-spinner> Cargando productos…</p> }
   @if (error) { <ion-text color="danger"><p role="alert">{{ error }}</p></ion-text> }
   @if (!cargando && !error && productos.length === 0) { <p>No hay productos registrados.</p> }
-  @if (!cargando && !error) { <section class="surface"><app-tabla-productos [productos]="productos" (seleccion)="seleccionado = $event" /></section> } @if (seleccionado) { <p class="selection-note" aria-live="polite">Seleccionado: {{ seleccionado.nombre }} · Stock: {{ seleccionado.stock }}</p> }
+  @if (!cargando && !error) { <section class="surface"><app-tabla-productos [productos]="productos" [editable]="auth.sesion()?.rol === 'admin'" (editar)="editarProducto($event)" (seleccion)="seleccionado = $event" /></section> } @if (seleccionado) { <p class="selection-note" aria-live="polite">Seleccionado: {{ seleccionado.nombre }} · Stock: {{ seleccionado.stock }}</p> }
  </main>
 </ion-content>
 
