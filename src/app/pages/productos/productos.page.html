@@ -1,0 +1,18 @@
+<app-cabecera titulo="Productos" />
+<ion-content class="ion-padding">
+ <main>
+  <div class="page-heading"><div><p class="eyebrow">CATÁLOGO / PRODUCTOS</p><h1>Todo tu inventario,<br> en un lugar.</h1><p class="page-description">Consulta existencias, encuentra productos y mantén el catálogo al día.</p></div><span class="data-label">Datos de Supabase</span></div>
+  <div class="action-row">
+  @if (auth.sesion()?.rol === 'admin') { <ion-button routerLink="/nuevo-producto">Nuevo producto</ion-button> }
+  <ion-button fill="outline" (click)="cargar()" [disabled]="cargando">Actualizar</ion-button>
+  <ion-button fill="clear" (click)="salir()">Cerrar sesión</ion-button>
+  </div>
+  @if (cargando) { <p role="status"><ion-spinner></ion-spinner> Cargando productos…</p> }
+  @if (error) { <ion-text color="danger"><p role="alert">{{ error }}</p></ion-text> }
+  @if (!cargando && !error && productos.length === 0) { <p>No hay productos registrados.</p> }
+  @if (!cargando && !error) { <section class="surface"><app-tabla-productos [productos]="productos" (seleccion)="seleccionado = $event" /></section> } @if (seleccionado) { <p class="selection-note" aria-live="polite">Seleccionado: {{ seleccionado.nombre }} · Stock: {{ seleccionado.stock }}</p> }
+ </main>
+</ion-content>
+
+
+

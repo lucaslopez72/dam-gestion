@@ -1,0 +1,74 @@
+<app-cabecera titulo="Acceso a DAM Gestión" />
+
+<ion-content class="ion-padding">
+  <main class="login-layout">
+   <section class="login-intro"><p class="eyebrow">DAM GESTIÓN / INVENTARIO</p><h1>Tu inventario.<br>Bajo control.</h1><p>Una visión compartida de tus productos, existencias e informes.</p><div class="login-capabilities"><span>Catálogo centralizado</span><span>Acceso por roles</span><span>Informes PDF y CSV</span></div><p class="intro-footer">Desarrollo de Interfaces · DAM</p></section>
+   <section class="surface login-form">
+    <h2>Iniciar sesión</h2>
+    <p>Introduce tu correo y contraseña para acceder.</p>
+
+    <form
+      novalidate
+      [formGroup]="formulario"
+      (ngSubmit)="entrar()"
+      [attr.aria-busy]="cargando()"
+    >
+      <ion-item>
+        <ion-input
+          label="Correo electrónico"
+          labelPlacement="stacked"
+          type="email"
+          autocomplete="username"
+          formControlName="email"
+          errorText="Introduce un correo electrónico válido."
+          [attr.aria-invalid]="
+            formulario.controls.email.touched &&
+            formulario.controls.email.invalid
+          "
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Contraseña"
+          labelPlacement="stacked"
+          [type]="mostrarPassword() ? 'text' : 'password'"
+          autocomplete="current-password"
+          formControlName="password"
+          errorText="Introduce tu contraseña."
+          [attr.aria-invalid]="
+            formulario.controls.password.touched &&
+            formulario.controls.password.invalid
+          "
+        ></ion-input>
+      </ion-item>
+
+      <ion-button fill="clear" type="button" [attr.aria-pressed]="mostrarPassword()" (click)="mostrarPassword.set(!mostrarPassword())">{{mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'}}</ion-button>
+
+      @if (error()) {
+        <ion-text color="danger">
+          <p role="alert">{{ error() }}</p>
+        </ion-text>
+      }
+
+      <ion-button
+        class="ion-margin-top"
+        expand="block"
+        type="submit"
+        [disabled]="cargando()"
+      >
+        @if (cargando()) {
+          <ion-spinner
+            name="crescent"
+            aria-hidden="true"
+          ></ion-spinner>
+          <span class="ion-margin-start">Accediendo…</span>
+        } @else {
+          Entrar
+        }
+      </ion-button>
+    </form>
+   </section>
+  </main>
+</ion-content>
+

@@ -1,0 +1,22 @@
+{
+  "fecha": "2026-10-29T18:24:22.236Z",
+  "cuentas": [
+    {
+      "rol": "admin",
+      "acceso": true,
+      "usuarioVerificado": true,
+      "lectura": true,
+      "registros": 12,
+      "escrituraDenegada": null
+    },
+    {
+      "rol": "usuario",
+      "acceso": true,
+      "usuarioVerificado": true,
+      "lectura": true,
+      "registros": 12,
+      "escrituraDenegada": true
+    }
+  ],
+  "accesoAnonimoBloqueado": true
+}

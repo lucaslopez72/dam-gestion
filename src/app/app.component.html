@@ -3,31 +3,36 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+          <div class="brand"><span class="brand-mark" aria-hidden="true">DG</span><div><strong>DAM Gestión</strong><small>Control de inventario</small></div></div>
+          <p class="nav-caption">ESPACIO DE TRABAJO</p>
 
-          @for (p of appPages; track p; let i = $index) {
-            <ion-menu-toggle auto-hide="false">
-              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+          @for (p of paginasVisibles; track p.url) {
+            <ion-menu-toggle [autoHide]="false">
+              <ion-item
+                routerDirection="root"
+                [routerLink]="[p.url]"
+                routerLinkActive="selected"
+                lines="none"
+                [detail]="false"
+              >
+                <ion-icon
+                  slot="start"
+                  aria-hidden="true"
+                  [ios]="p.icon + '-outline'"
+                  [md]="p.icon + '-sharp'"
+                ></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           }
         </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
+        <div class="session-card">
+          <span class="session-dot" aria-hidden="true"></span>
+          <div><strong>{{ auth.sesion()?.rol === 'admin' ? 'Administrador' : auth.sesion() ? 'Usuario estándar' : 'Acceso protegido' }}</strong><small>{{ auth.sesion()?.email || 'Inicia sesión para continuar' }}</small></div>
+        </div>
       </ion-content>
     </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
