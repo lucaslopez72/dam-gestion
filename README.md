@@ -2,6 +2,15 @@
 
 Aplicación Ionic + Angular de gestión de inventario. El proyecto original está en `Documents/DAM 2/DI/Actividad 1/dam-gestion`; el servidor de desarrollo utiliza **http://localhost:4202**.
 
+## Enlaces de entrega
+
+- Aplicación: https://lucaslopez72.github.io/dam-gestion/
+- Código fuente e historial: https://github.com/lucaslopez72/dam-gestion
+- Documentación técnica: https://lucaslopez72.github.io/dam-gestion/documentacion/
+- Manual: este README y la página Ayuda de la aplicación.
+
+GitHub Actions valida, compila y publica automáticamente cada cambio en main. En producción se utilizan rutas con # para permitir recargas en GitHub Pages; localhost mantiene sus rutas habituales. Las credenciales de evaluación se entregan en el PDF privado del docente, nunca en este repositorio.
+
 ## Arranque y comprobaciones
 
 Requisitos: Node.js 22 LTS y npm. Ejecutar desde la raíz del proyecto:
